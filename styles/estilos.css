@@ -1,19 +1,78 @@
+/*
+  Solicitud de beca Erasmus+ · DAW Mobility
+
+  PALETA (todos los colores se declaran una sola vez en :root y el resto de la hoja los usa mediante variables)
+  - --color-primario: cabecera, pie, títulos y botón principal
+  - --color-primario-claro: extremo claro del degradado de cabecera y pie
+  - --color-acento: enlace activo del menú
+  - --color-fondo-pagina: fondo de la página
+  - --color-superficie: fondo de tarjetas y botones secundarios
+  - --color-texto-inverso: texto sobre fondos oscuros
+  - --color-borde-tarjeta: borde fino de tarjetas
+  - --color-borde-control: borde de los controles
+  - --color-texto-ayuda: texto de ayuda
+  - --color-borde-borrar: borde gris del botón Borrar
+  - --color-boton-principal-hover: fondo del botón principal al pasar el ratón o enfocar
+  - --color-boton-secundario-hover: fondo de los botones secundarios al pasar el ratón o enfocar
+  - --color-sombra-bloque: sombra de tarjetas y botón principal
+  - --color-sombra-texto: sombra del texto de la marca
+
+  ÍNDICE
+  1. Variables de la paleta
+  2. Base de la página
+  3. Cabecera y pie (Flexbox)
+  4. Estructura de la página (Grid)
+  5. Cuadro de ayuda (Grid)
+  6. Formulario y tarjetas de bloque
+  7. Campos y controles
+  8. Teléfono (prefijo + número)
+  9. Opciones (radios y casillas)
+  10. Pie de la carta
+  11. Botonera
+  12. Consulta de medios: formulario (40 em)
+  13. Consulta de medios: estructura (56 em)
+*/
+
+
+/* ========== 1. Variables de la paleta ========== */
+:root {
+    --color-primario: #12355b;
+    --color-primario-claro: #1f5088;
+    --color-acento: #f5b82e;
+    --color-fondo-pagina: #f5f7fa;
+    --color-superficie: #ffffff;
+    --color-texto-inverso: #ffffff;
+    --color-borde-tarjeta: #c9d3df;
+    --color-borde-control: #6b7f94;
+    --color-texto-ayuda: #5c6b7a;
+    --color-borde-borrar: #8a94a0;
+    --color-boton-principal-hover: #0b2340;
+    --color-boton-secundario-hover: #e3ebf5;
+    --color-sombra-bloque: rgb(18 53 91 / 20%);
+    --color-sombra-texto: rgb(0 0 0 / 45%);
+}
+
+
+/* ========== 2. Base de la página ========== */
 body {
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: Ubuntu, sans-serif;
-    background-color: #f5f7fa;
+    background-color: var(--color-fondo-pagina);
 }
 
+
+/* ========== 3. Cabecera y pie (Flexbox) ========== */
 .cabecera, .pie {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 4rem;
-    background-color: #1b3a5c;
-    color: white;
+    background-color: var(--color-primario);
+    background-image: linear-gradient(to right, var(--color-primario), var(--color-primario-claro));
+    color: var(--color-texto-inverso);
 }
 
 .cabecera {
@@ -37,9 +96,8 @@ body {
     list-style: none;
 }
 
-/* Enlaces */
 .menu__enlace, .pie__enlace {
-    color: white;
+    color: var(--color-texto-inverso);
     text-decoration: none;
 }
 
@@ -47,20 +105,346 @@ body {
     text-decoration: underline;
 }
 
-/* Enlace de la página actual */
 .menu__enlace[aria-current="page"] {
     font-weight: bold;
-    border-bottom: 2px solid #f5b82e;
+    border-bottom: 2px solid var(--color-acento);
     padding-bottom: 0.9rem;
 }
 
 .cabecera__marca {
     font-weight: bold;
     font-size: 1.1rem;
+    text-shadow: 0 0.0625rem 0.125rem var(--color-sombra-texto);
 }
 
+
+/* ========== 4. Estructura de la página (Grid) ========== */
 .principal {
     flex: 1;
-    padding: 1rem 25%;
-    color: #1b3a5c;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1rem 5%;
+    color: var(--color-primario);
+}
+
+.contenido {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+
+/* ========== 5. Cuadro de ayuda (Grid) ========== */
+.ayuda {
+    padding: 1rem;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde-tarjeta);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.5rem var(--color-sombra-bloque);
+}
+
+.ayuda__titulo {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.ayuda__lista {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ayuda__paso {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+}
+
+.ayuda__numero {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background-color: var(--color-primario);
+    color: var(--color-texto-inverso);
+    font-size: 0.875rem;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.ayuda__paso:hover .ayuda__numero {
+    transform: scale(1.1);
+}
+
+.ayuda__texto {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+
+/* ========== 6. Formulario y tarjetas de bloque ========== */
+.formulario {
+    display: grid;
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.grupo {
+    min-width: 0;
+    margin: 0;
+    padding: 1rem;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde-tarjeta);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.5rem var(--color-sombra-bloque);
+}
+
+.grupo__titulo {
+    padding: 0 0.5rem;
+    color: var(--color-primario);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.grupo__campos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+}
+
+
+/* ========== 7. Campos y controles ========== */
+.campo {
+    display: grid;
+    gap: 0.25rem;
+    align-content: start;
+    min-width: 0;
+}
+
+.campo__etiqueta {
+    font-weight: bold;
+}
+
+.campo__control {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--color-borde-control);
+    border-radius: 0.5rem;
+    font: inherit;
+    color: inherit;
+    background-color: var(--color-superficie);
+}
+
+textarea {
+    display: block;
+    resize: vertical;
+}
+
+.campo__ayuda {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-texto-ayuda);
+}
+
+
+/* ========== 8. Teléfono (prefijo + número) ========== */
+.telefono {
+    display: grid;
+    grid-template-columns: minmax(6rem, 9.5rem) minmax(0, 1fr);
+    gap: 0.5rem;
+}
+
+
+/* ========== 9. Opciones (radios y casillas) ========== */
+.opciones {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.opciones__pregunta {
+    padding: 0;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+.opciones__lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+    gap: 0.5rem 1.5rem;
+}
+
+.opcion {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: center;
+    min-height: 44px;
+}
+
+.opcion__marca {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+    accent-color: var(--color-primario);
+}
+
+.opcion label {
+    line-height: 1.5;
+}
+
+.opcion--larga {
+    align-items: start;
+}
+
+
+/* ========== 10. Pie de la carta ========== */
+.campo__pie {
+    display: grid;
+    gap: 0.25rem;
+}
+
+
+/* ========== 11. Botonera ========== */
+.botonera {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.boton {
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid;
+    border-radius: 0.5rem;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.boton--principal {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: var(--color-texto-inverso);
+    box-shadow: 0 0.125rem 0.25rem var(--color-sombra-bloque);
+}
+
+.boton--principal:hover,
+.boton--principal:focus-visible {
+    background-color: var(--color-boton-principal-hover);
+    transform: translateY(-0.125rem);
+}
+
+.boton--principal:active {
+    box-shadow: 0 0 0.0625rem var(--color-sombra-bloque);
+    transform: translateY(0);
+}
+
+.boton--secundario {
+    background-color: var(--color-superficie);
+    border-color: var(--color-primario);
+    color: var(--color-primario);
+}
+
+.boton--borrar {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde-borrar);
+    color: var(--color-primario);
+}
+
+.boton--secundario:hover,
+.boton--secundario:focus-visible,
+.boton--borrar:hover,
+.boton--borrar:focus-visible {
+    background-color: var(--color-boton-secundario-hover);
+}
+
+
+/* ========== 12. Consulta de medios: formulario (40 em) ========== */
+@media (min-width: 40em) {
+
+    .grupo__campos {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 1rem 1.5rem;
+    }
+
+    .grupo--personales .grupo__campos {
+        grid-template-areas:
+            "nombre nombre apellidos apellidos apellidos apellidos"
+            "correo correo correo telefono telefono telefono"
+            "nacimiento nacimiento . . . .";
+    }
+
+    .grupo--academicos .grupo__campos {
+        grid-template-areas:
+            "ciclo ciclo ciclo curso curso curso"
+            "nota nota idiomas idiomas idiomas idiomas";
+    }
+
+    .grupo--destino .grupo__campos {
+        grid-template-areas:
+            "pais pais pais incorporacion incorporacion incorporacion"
+            "duracion duracion duracion duracion duracion duracion";
+    }
+
+    .grupo--motivacion .grupo__campos {
+        grid-template-areas:
+            "carta carta carta carta carta carta"
+            "curriculum curriculum curriculum curriculum curriculum curriculum";
+    }
+
+    .campo--nombre { grid-area: nombre; }
+    .campo--apellidos { grid-area: apellidos; }
+    .campo--correo { grid-area: correo; }
+    .campo--telefono { grid-area: telefono; }
+    .campo--nacimiento { grid-area: nacimiento; }
+    .campo--ciclo { grid-area: ciclo; }
+    .campo--curso { grid-area: curso; }
+    .campo--nota { grid-area: nota; }
+    .campo--idiomas { grid-area: idiomas; }
+    .campo--pais { grid-area: pais; }
+    .campo--incorporacion { grid-area: incorporacion; }
+    .campo--duracion { grid-area: duracion; }
+    .campo--carta { grid-area: carta; }
+    .campo--curriculum { grid-area: curriculum; }
+
+    .campo__pie {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.25rem 1rem;
+        align-items: baseline;
+    }
+
+    .botonera {
+        grid-template-columns: auto minmax(0, 1fr) auto auto;
+    }
+
+    .boton--borrar { grid-column: 1; }
+    .boton--secundario { grid-column: 3; }
+    .boton--principal { grid-column: 4; }
+}
+
+
+/* ========== 13. Consulta de medios: estructura (56 em) ========== */
+@media (min-width: 56em) {
+
+    .contenido {
+        grid-template-columns: minmax(0, 1fr) 18rem;
+        align-items: start;
+    }
+
+    .ayuda {
+        top: 1rem;
+    }
 }
